@@ -12,11 +12,11 @@ TMP_DIR = "/tmp/airflow_clickhouse_upload"
 os.makedirs(TMP_DIR, exist_ok=True)
 
 # Параметры
-TABLE_NAME = "ROP"  # новое имя таблицы в ClickHouse
+TABLE_NAME = "ROP1"  # новое имя таблицы в ClickHouse
 
 # Создаём DAG
 dag = DAG(
-    dag_id='mariadb_to_clickhouse_ROP',
+    dag_id='mariadb_to_clickhouse_ROP1',
     schedule_interval=None,
     start_date=days_ago(1),
     catchup=False,
@@ -145,7 +145,7 @@ subdirectories as (
 	where
 	    d.department_id in (2831576, 2831586, 2831572, 42561, 42560, 2124383, 2743029, 2743027)
 ), 
--- 3. Продажи. Первая часть -продажи со сменой автора реализации(отличается от автора счёта и реализация принаджелит партнёру)
+-- 3.1 Продажи. Первая часть -продажи со сменой автора реализации(отличается от автора счёта и реализация принаджелит партнёру)
 sales as (
 	SELECT 
 		d.sbis_shipment_date,
@@ -169,6 +169,7 @@ sales as (
 		view_departments_with_root_folders d3 on d.department_id = d3.department_id
 		and(d3.root_id = 59041)
 	union all
+    -- 3.2 Продажи. Вторая часть - все продажи
 	SELECT 
 		d.sbis_shipment_date,
 		d.document_id,
@@ -269,7 +270,7 @@ def load_to_file(**context):
         df['folder_2'].tolist(),
         df['folder_3'].tolist(),
         df['name'].tolist(),
-        df['nomenclature_price_total'].tolist()
+        df['nomenclature_price_total'].tolist(),
         df['realization'].tolist()
     ))
 
