@@ -160,7 +160,7 @@ sales as (
 		documents d 
 	JOIN 
 		documents d2 on d.`number` =d2.`number`
-		and d.sbis_shipment_date='{{ yesterday_ds }}'
+		and d.sbis_shipment_date = {{ yesterday_ds }}
 		and(d.shipment = 1)
 		and(d.invoice_total_sum_calculated>0)
 		and(d.deleted =0)
@@ -180,7 +180,7 @@ sales as (
 		"not changed" as realization
 	FROM 
 		documents d
-	where d.sbis_shipment_date='{{ yesterday_ds }}'
+	where d.sbis_shipment_date = {{ yesterday_ds }}
 		and(d.shipment = 1) 
 		and(d.invoice_total_sum_calculated>0)
 		and(d.deleted =0)
@@ -296,7 +296,7 @@ def load_to_file(**context):
             f"INSERT INTO {TABLE_NAME} (date, number, root_department, department, section, sector, employe_name, root_folder, folder_1, folder_2, folder_3, name, nomenclature_price_total, realization) VALUES",
             data
         )
-        
+
         # удаление CSV-файла после успешной загрузки в ClickHouse
         try:
             os.remove(file_path)
