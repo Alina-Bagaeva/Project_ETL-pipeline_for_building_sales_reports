@@ -1,4 +1,4 @@
-# Project_ETL-pipeline_for_building_sales_reports
+#  ETL-pipeline для построения отчетности продаж
 
 ## Описание
 
